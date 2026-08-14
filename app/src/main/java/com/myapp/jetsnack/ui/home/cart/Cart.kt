@@ -80,6 +80,7 @@ fun Cart(
         removeSnack = viewModel::removeSnack,
         increaseItemCount = viewModel::increaseSnackCount,
         decreaseItemCount = viewModel::decreaseSnackCount,
+        checkout = viewModel::checkout,
         inspiredByCart = inspiredByCart,
         onSnackClick = onSnackClick,
         modifier = modifier,
@@ -92,6 +93,7 @@ fun Cart(
     removeSnack: (Long) -> Unit,
     increaseItemCount: (Long) -> Unit,
     decreaseItemCount: (Long) -> Unit,
+    checkout: () -> Unit,
     inspiredByCart: SnackCollection,
     onSnackClick: (Long, String) -> Unit,
     modifier: Modifier = Modifier,
@@ -108,7 +110,10 @@ fun Cart(
                 modifier = Modifier.align(Alignment.TopCenter),
             )
             DestinationBar(modifier = Modifier.align(Alignment.TopCenter))
-            CheckoutBar(modifier = Modifier.align(Alignment.BottomCenter))
+            CheckoutBar(
+                onCheckoutClick = checkout,
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
         }
     }
 }
@@ -411,7 +416,10 @@ fun SummaryItem(subtotal: Long, shippingCosts: Long, modifier: Modifier = Modifi
 }
 
 @Composable
-private fun CheckoutBar(modifier: Modifier = Modifier) {
+private fun CheckoutBar(
+    onCheckoutClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier.background(
             JetsnackTheme.colors.uiBackground.copy(alpha = AlphaNearOpaque),
@@ -421,7 +429,7 @@ private fun CheckoutBar(modifier: Modifier = Modifier) {
         Row {
             Spacer(Modifier.weight(1f))
             JetsnackButton(
-                onClick = { /* todo */ },
+                onClick = onCheckoutClick,
                 shape = RectangleShape,
                 modifier = Modifier
                     .padding(horizontal = 12.dp, vertical = 8.dp)
