@@ -32,10 +32,13 @@ import com.myapp.jetsnack.ui.theme.JetsnackTheme
 import kotlin.math.max
 
 @Composable
-fun SearchCategories(categories: List<SearchCategoryCollection>) {
+fun SearchCategories(
+    categories: List<SearchCategoryCollection>,
+    onCategoryClick: (String) -> Unit
+) {
     LazyColumn {
         itemsIndexed(categories) { index, collection ->
-            SearchCategoryCollection(collection, index)
+            SearchCategoryCollection(collection, index, onCategoryClick)
         }
     }
     Spacer(Modifier.height(8.dp))
@@ -45,6 +48,7 @@ fun SearchCategories(categories: List<SearchCategoryCollection>) {
 private fun SearchCategoryCollection(
     collection: SearchCategoryCollection,
     index: Int,
+    onCategoryClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(modifier) {
@@ -66,6 +70,7 @@ private fun SearchCategoryCollection(
                 SearchCategory(
                     category = category,
                     gradient = gradient,
+                    onCategoryClick = onCategoryClick,
                     modifier = Modifier.padding(8.dp),
                 )
             }
@@ -82,6 +87,7 @@ private const val CategoryTextProportion = 0.55f
 private fun SearchCategory(
     category: SearchCategory,
     gradient: List<Color>,
+    onCategoryClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Layout(
@@ -90,7 +96,7 @@ private fun SearchCategory(
             .shadow(elevation = 3.dp, shape = CategoryShape)
             .clip(CategoryShape)
             .background(Brush.horizontalGradient(gradient))
-            .clickable { /* todo */ },
+            .clickable { onCategoryClick(category.name) },
         content = {
             Text(
                 text = category.name,
