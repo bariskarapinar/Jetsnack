@@ -129,7 +129,10 @@ fun FilterScreen(
                     )
                     val resetEnabled = sortState != defaultFilter
                     IconButton(
-                        onClick = { /* TODO: Reset filters */ },
+                        onClick = {
+                            sortState = defaultFilter
+                            maxCalories = 0f
+                        },
                         enabled = resetEnabled,
                     ) {
                         val fontWeight = if (resetEnabled) {
